@@ -1,0 +1,62 @@
+{
+    "tasks": [
+        {
+            "type": "process",//"cppbuild",
+            "label": "C/C++: clang++.exe 生成活动文件",
+            "command": "C:\\Program Files\\LLVM\\bin\\clang++.exe",
+            "args": [
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "--std=c++23",            // 既然用了 LLVM 21，直接上 C++23 战力
+                "-Wall"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "调试器生成的任务。"
+        }
+    ],
+    "version": "2.0.0"
+}
+
+// {
+//     "tasks": [
+//         {
+//             "type": "shell",
+//             "label": "cmake build active file",
+//             "command": "cmake --build ${workspaceFolder}\\build --config Debug --target all -- -j 12",
+//             "args": [
+//                 "-g",
+//                 "${file}",
+//                 "-o",
+//                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
+//                 "-Wall", // 开启额外警告
+//                 "-static-libgcc", // 静态链接
+//                 "-fcolor-diagnostics", // 彩色的错误信息？但貌似clang默认开启而gcc不接受此参数
+//                 "-std=c++20", // C语言最新标准为c11，或根据自己的需要进行修改
+//             ],
+//             "options": {
+//                 "cwd": "${workspaceFolder}/build"
+//             },
+//             "problemMatcher": [
+//                 "$gcc"
+//             ],
+//             "group": {
+//                 "kind": "build",
+//                 "isDefault": true
+//             }
+//         }
+//     ],
+//     "version": "2.0.0"
+// }

@@ -1,0 +1,71 @@
+{
+    "configurations": [
+        {
+           
+            "program": "${workspaceFolder}/build/demo.exe", // 可执行文件所在的路径, Demo= 替换成自己的项
+     
+            
+            "cwd": "${workspaceFolder}",
+          
+          
+          
+            "preLaunchTask": "cmake build active file" // 执行cmake编译任务, 再task.json中定义的
+        }
+    ]
+}
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Win32-Native-LLVM",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "miDebuggerPath": "C:/Program Files/LLVM/bin/lldb.exe",
+            "preLaunchTask": "爷的 Clang++ 编译任务",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
+
+// 听好了，哥们，`launch.json` 就是你的**战地急救箱**和**战术审讯室** [cite: 2026-02-14]。
+
+// 既然老子之前没直接把它的配置文件甩给你，那是因为你只问了它是干嘛的，那本硬汉现在就只跟你单纯地盘盘它的底层逻辑，不搞那些虚头巴脑的直接塞方案 [cite: 2026-02-14]。
+
+// 之前咱们聊过，`tasks.json` 是供弹机，负责把你的代码砸成可以直接开火的二进制铁疙瘩（`.exe`）[cite: 2026-02-14]。但如果这铁疙瘩一跑就崩溃，或者算出来的结果全乱套了，你打算怎么办？这时候就轮到 `launch.json` 登场了。
+
+// 它在 VS Code 里的唯一使命，就是**操纵调试器（Debugger）**。
+
+// ### 1. 它的核心职能 🛠️
+
+// * **挂载审讯官**：既然你装了最新的 LLVM，你的专属审讯官就是 `lldb`。`launch.json` 负责把你刚编译出来的程序扔给 `lldb`，让它死死盯住程序运行的每一个瞬间。
+// * **精准定点爆破（打断点）**：有了这个文件，你才能在代码行号旁边点出那个小红点（Breakpoint）[cite: 2026-02-14]。程序运行到那一行会瞬间冻结，你可以像个老练的外科医生一样，扒开内存看里面每个变量现在到底装的是什么狗屎数据。
+// * **一条龙武装连招**：它里面有个极其硬核的参数叫 `preLaunchTask`。只要你把它指向 `tasks.json` 里的编译任务，以后你只需要按一下键盘上的 **`F5`**，VS Code 就会自动执行一整套战术动作：先去编译 -> 确认没报错 -> 瞬间启动调试 [cite: 2026-02-14]。
+
+// ### 2. 贴近实际的战场举例 💣
+
+// 假设哥们你写了一段计算矩阵的 C++ 代码，跑出来的结果却是个负数 [cite: 2026-02-14]。
+
+// * **没有 `launch.json**`：你只能像个原始人一样，在代码里狂加 `std::cout` 或者 `printf`，跑一次看一眼，低效且极其折磨钢铁般的意志 [cite: 2026-02-14]。
+// * **有了 `launch.json**`：你直接按 `F5` 启动，程序停在你怀疑出错的那一行。你把鼠标悬停在变量上，它的当前数值就直接悬浮显示出来。你甚至可以单步执行（按 `F10`），眼睁睁看着那个变量是怎么一步步被算错的 [cite: 2026-02-14]。
+
+// ---
+
+// ### 爷的总结 🚬
+
+// 总而言之一句话：**不配 `launch.json`，你的程序就是一匹脱缰的野马，跑飞了你都不知道去哪找；配了它，程序就是被你拿枪指着脑袋的俘虏，你让它走半步它绝不敢走一步。** [cite: 2026-02-14]
+
+// 你现在只是想搞清楚这玩意的概念，还是说你那刚用 LLVM 搞出来的代码已经跑出 Bug，准备让老子带你搭一个实际的审讯室开始抓虫了？ 🧱

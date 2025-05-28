@@ -1,0 +1,60 @@
+听好了，哥们，问得真他妈在点子上。CMake 在 VS Code 里就像个霸道的指挥官，它一旦进场，很多你之前费劲巴拉配的手动设置就得靠边站。
+
+老子直接给你盘盘 **CMake 会跟哪些玩意儿“撞车”**，省得你以后代码能跑但满屏红线，或者编译出来一堆莫名其妙的错。 🥃
+
+---
+
+### 1. 最大的冲突：`configurationProvider` 篡位夺权 🚨
+
+这是最让兄弟们头疼的地方。在你的 `c_cpp_properties.json` 里，如果你写了这行：
+`"configurationProvider": "ms-vscode.cmake-tools"` [cite: 2026-02-15]
+
+* **冲突表现：** VS Code 会直接无视你手动写的 `includePath` 和 `defines` [cite: 2026-02-15]。
+* **爷的解释：** 这行代码的意思是“把雷达指挥权交给 CMake” [cite: 2026-02-15]。哪怕你在 `includePath` 里贴了再多路径，只要你的 `CMakeLists.txt` 里没写 `include_directories`，编辑器照样给你报红线 [cite: 2026-02-14]。
+* **后果：** 手动配置和自动配置打架，最后往往是自动配置赢，但如果你没配好 CMake，编辑器就成了瞎子。
+
+---
+
+### 2. 任务冲突：`tasks.json` vs. CMake 自动化 🔫
+
+* **冲突表现：** 你辛辛苦苦写的那个调用 `clang++` 的 `tasks.json` 可能会变成功夫废料 [cite: 2026-02-14]。
+* **爷的解释：** 既然用了 CMake，正规军的做法是点击 VS Code 下方状态栏的“Build”按钮，或者按 `F7` [cite: 2026-02-15]。这时候它走的是 CMake 的编译流，根本不看你的 `tasks.json` [cite: 2026-02-14]。
+* **隐患：** 如果你在 `tasks.json` 里配了 **LLVM 21** [cite: 2026-02-14]，但在 CMake 里没指定编译器，CMake 可能会偷偷调用系统自带的破烂编译器去干活，导致版本打架。
+
+---
+
+### 3. 编译器路径冲突：谁才是真正的“枪头”？ 🏹
+
+* **冲突表现：** `c_cpp_properties.json` 里的 `compilerPath` 跟 CMake 实际用的编译器对不上 [cite: 2026-02-14, 2026-02-15]。
+* **爷的解释：** CMake 有自己的脾气，它会通过 `CMAKE_CXX_COMPILER` 变量找编译器 [cite: 2026-02-14]。如果你的 JSON 里指着 **LLVM 21**，但 CMake 自己跑去用了 **MSVC** 或者 **GCC**，你会发现 IntelliSense 补全的是一套代码，编译出来的又是另一套。
+* **后果：** 这种“阴阳环境”最难排查，查 Bug 能查到你怀疑人生 [cite: 2026-02-14]。
+
+---
+
+### 4. WASM 特有的“双线冲突” 🛸
+
+既然你要搞 WebAssembly，这地方最容易翻车：
+
+* **原生环境 vs. WASM 环境：** 纯 `cmake` 命令会默认编译成 Windows 的 `.exe` [cite: 2026-02-14]。
+* **冲突点：** 如果你直接在终端敲 `cmake ..`，它会跟你刚才配的 **Win32-Native-LLVM** 抢占资源。
+* **正解：** 搞 WASM 必须用 `emcmake cmake ..` 这种“挟持”命令，强行让 CMake 换上 Emscripten 的装甲 [cite: 2026-02-14]。
+
+---
+
+### 哥们的战术避坑板 📊
+
+| 冲突项 | 谁赢了？ | 爷的建议 🚬 |
+| --- | --- | --- |
+| **`includePath` vs. CMake** | **CMake** [cite: 2026-02-15] | 把路径写进 `CMakeLists.txt`，别在 JSON 里死磕。 |
+| **`tasks.json` vs. CMake Build** | **CMake** [cite: 2026-02-14, 2026-02-15] | 要么全用 CMake 插件，要么就在 `tasks.json` 里调 `cmake --build`。 |
+| **系统编译器 vs. LLVM 21** | **看 CMake 配置** [cite: 2026-02-14] | 在 CMake 里显式 `set(CMAKE_CXX_COMPILER ...)`，焊死编译器。 |
+
+---
+
+### 爷的最终总结 🥃
+
+CMake 就像个“独裁者”，一旦你用了它，就得把绝大部分的指挥权（头文件路径、宏定义、编译器选择）全部写在 `CMakeLists.txt` 里 [cite: 2026-02-14]。那几个 JSON 文件就纯粹变成了“传话筒” [cite: 2026-02-14]。
+
+**一句话：你要么就纯手动写 `tasks.json` 和 `includePath`（适合单文件小 Demo）；要么就全盘交给 CMake（适合你以后的 3D 引擎大工程）。千万别搞两头占，否则冲突起来全是泪。**
+
+怎么着，你是准备把那几个 JSON 删了全身心拥抱 CMake，还是打算先把那两个“冲突”的行给注释掉观察观察？ 🧱 **Would you like me to help you configure your `CMakeLists.txt` to properly use your LLVM 21.1.8 without any conflicts?**

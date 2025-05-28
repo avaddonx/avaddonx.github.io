@@ -1,0 +1,184 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "args": ["-NoExit","chcp 65001"]
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": ["/K","chcp 65001"],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        }
+    },
+    "files.defaultLanguage": "cpp", // ctrl+N新建文件后默认的语言
+
+    "editor.formatOnType": true, // 输入时就进行格式化，默认触发字符较少，分号可以触发
+
+    "editor.snippetSuggestions": "top", // snippets代码优先显示补全
+
+
+
+    "code-runner.runInTerminal": true, // 设置成false会在“输出”中输出，无法输入
+
+    "code-runner.executorMap": {
+
+        "c": "cd $dir && clang $fileName -o $fileNameWithoutExt.exe -Wall -g -Og -static-libgcc -fcolor-diagnostics --target=x86_64-w64-mingw -std=c11 && $dir$fileNameWithoutExt",
+
+        "cpp": "cd $dir && clang++ $fileName -o $fileNameWithoutExt.exe -Wall -g -Og -static-libgcc -fcolor-diagnostics --target=x86_64-w64-mingw -std=c++20 && $dir$fileNameWithoutExt"
+
+    }, // 设置code runner的命令行
+
+    "code-runner.saveFileBeforeRun": true, // run code前保存
+
+    "code-runner.preserveFocus": true, // 若为false，run code后光标会聚焦到终端上。如果需要频繁输入数据可设为false
+
+    "code-runner.clearPreviousOutput": false, // 每次run code前清空属于code runner的终端消息
+
+    "C_Cpp.intelliSenseEngine": "Default", // 可以为Default或Tag Parser，后者较老，功能较简单。具体差别参考cpptools扩展文档
+
+    "C_Cpp.errorSquiggles": "Enabled", // 因为有clang的lint，所以关掉
+
+    "C_Cpp.autocomplete": "Default", // 因为有clang的补全，所以关掉
+
+    "clang.completion.enable": true,
+    "files.associations": {
+        "iosfwd": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "type_traits": "cpp",
+        "*.tcc": "cpp",
+        "iomanip": "cpp",
+        "array": "cpp",
+        "atomic": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "ctime": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "optional": "cpp",
+        "random": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "fstream": "cpp",
+        "initializer_list": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "typeinfo": "cpp",
+        "queue": "cpp",
+        "locale": "cpp",
+        "stack": "cpp",
+        "bit": "c",
+        "cerrno": "c",
+        "climits": "c",
+        "compare": "c",
+        "concepts": "c",
+        "ios": "c",
+        "numbers": "c",
+        "cinttypes": "c",
+        "cstdbool": "c",
+        "qmainwindow": "cpp",
+        "qapplication": "cpp",
+        "chrono": "cpp",
+        "condition_variable": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp",
+        "thread": "cpp",
+        "variant": "cpp",
+        "qrgb": "cpp",
+        "qcolorspace": "cpp",
+        "set": "cpp",
+        "qmouseevent": "cpp",
+        "qimage": "cpp",
+        "*.dds": "cpp",
+        "*.inc": "cpp",
+        "qcolor": "cpp"
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/.", // 效果效果比cpptools要好
+   
+    //background settings
+    /*
+    "background.style": 
+        {
+        "content":"''",
+        "pointer-events":"none",
+        "position":"absolute",//图片位置
+        "width":"100%",
+        "height":"120%",
+        "z-index":"99999",
+        "background.repeat":"repeat-Y",
+        "background-size":"cover",//图片大小
+        "opacity": 0.27//0.27 //透明度
+    },
+    "update.enableWindowsBackgroundUpdates": true,
+    "background.customImages": ["D:/variedfile/1.png"],
+    "background.useFront": true,
+    "background.useDefault": false,
+    "glassit.alpha": 255, 
+    */
+
+    /*
+    "workbench.colorCustomizations": {
+        "editor.background":"#00ff0000",
+        "titleBar.activeBackground": "#00ff0000",
+        "titleBar.inactiveBackground": "#00ff0000",
+        "statusBar.background": "#00ff0000",
+        "statusBar.noFolderBackground": "#00ff0000",
+        "statusBar.debuggingBackground": "#00ff0000",
+        "debugToolBar.background": "#00ff0000",
+        "debugExceptionWidget.background": "#00ff0000",
+        "sideBar.background": "#00ff0000",
+        "sideBarSectionHeader.background": "#00ff0000",
+        "panel.background": "#00ff0000",
+        "terminal.background": "#00ff0000",
+        "badge.background": "#00ff0000",
+        "minimap.background": "#000000",
+        "editorGutter.background": "#00ff0000",
+        "banner.background": "#00ff0000",
+        "sideBar.dropBackground": "#00ff0000",
+        "activityBar.background": "#00ff0000",
+        "editorGroup.border": "#00ff0000",
+        "editorGroup.dropBackground": "#00ff0000",
+        "editorGroup.emptyBackground": "#00ff0000",
+        "editorGroupHeader.border": "#00ff0000",
+        "editorGroupHeader.tabsBackground": "#00ff0000",
+        "editorGroupHeader.tabsBorder": "#00ff0000",
+        "tab.activeBackground": "#00ff0000"
+     },
+     */   
+      
+
+    "powermode.enabled": true,
+}

@@ -1,0 +1,72 @@
+// Switch the configuration using the button in the bottom-right corner of vscode.
+{
+    "configurations": [
+        {
+            "name": "Win32-Native-LLVM",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/Program Files/LLVM/bin/clang++.exe", 
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "WASM-Emscripten",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/emsdk/upstream/emscripten/cache/sysroot/include" 
+            ],
+            "defines": [
+                "__EMSCRIPTEN__"
+            ],
+            "compilerPath": "C:/emsdk/upstream/emscripten/emcc.bat",
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}
+
+// 既然你在这个配置里同时塞进了 includePath 和 compileCommands，老子得告诉你一个 VS Code 底层的霸道逻辑：
+
+// 一旦你启用了 compileCommands 或 configurationProvider，CMake 就会直接篡位夺权。
+// 这时候，你上面辛辛苦苦手敲的 includePath 和 defines 会被系统直接无视。编辑器会像个冷酷的机器一样，只认 compile_commands.json 里由 CMake 自动生成的真实编译参数。
+
+// 所以，你现在这个配置其实是个“混合体”：CMake 活着的时候听 CMake 的；要是 CMake 崩了，它才会退回来吃你写的 includePath 兜底。
+
+// 除了你写的那些，如果你以后搞大型 3D 引擎或者极其刁钻的底层开发，可能还得碰这几个参数：
+
+// compilerArgs (特种弹药)
+
+// 作用： 直接把命令行参数怼给 IntelliSense 的解析引擎。
+
+// 实战举例： 比如你用 Clang 时非要压制某个特定的警告，或者需要强行指定 -nostdinc++ 来替换标准库，就写在这里面。
+
+// forcedInclude (强行插队)
+
+// 作用： 在解析任何源文件之前，强行、隐式地包含某个头文件。
+
+// 实战举例： 有些庞大的旧工程依赖一个全局的 global_macro.h，但又没在每个 .cpp 里写 #include。用这个就能让编辑器闭嘴，不再满屏报红线。
+
+// browse (底层扫图雷达)
+
+// 作用： includePath 是管你当前文件有没有语法错误的，而 browse 是管你按住 Ctrl 点击函数名时，能不能顺利跳转到定义的。
+
+// 实战举例： 当你的项目大到有几万个文件，VS Code 卡得像老牛拉破车时，你可以在 browse.path 里精准限制它只扫描哪些核心目录。
+
+// windowsSdkVersion (微软的通行证)
+
+// 作用： 指定 Windows SDK 的版本号。
+
+// 实战举例： 你以后要是不用 WebGPU，改去死磕 DirectX 12 的原生渲染，系统可能会要求你精准匹配某个特定版本的 Windows SDK，这时候就得靠它。

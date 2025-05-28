@@ -1,0 +1,87 @@
+:root {
+    --black: rgb(38, 38, 38);            /* 15%*/
+    --pure-black: rgb(0, 0, 0);          /*  0%*/
+    --white: rgb(217, 217, 217);         /* 85%*/
+    --pure-white: rgb(255, 255, 255);    /*100%*/
+    --max-z: 2147483647;
+}
+
+@font-face {
+    font-family: "roboto-regular";
+    src: url("../../assets/fonts/static/Roboto-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; 
+}
+
+@font-face {
+    font-family: "roboto-black";
+    src: url("../../assets/fonts/static/Roboto-Black.ttf") format("truetype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap; 
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+    user-select: none;
+    -webkit-user-select: none; 
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#noumenan-layer {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: var(--max-z);
+    display: block;
+}
+
+#seo-layer {
+    position: absolute;
+    top: -1000000px;
+    left: -1000000px;
+    width: 1px;
+    height: 1px;
+    clip-path: inset(50%);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    touch-action: none; 
+    overscroll-behavior: none;
+}
+
+html {
+    /* Desktop-only: intended for non-mobile environments. 
+       Active only when #noumenan-layer, #seo-layer and overflow:hidden (body, html) are disabled. 
+       Used for inspecting crawlable SEO content.*/
+    scroll-behavior: smooth;
+    scrollbar-color: var(--white) var(--black);
+}
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: "roboto-regular", sans-serif;
+    font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6, b, strong, th, dt, optgroup, legend, hgroup p {
+    font-family: "roboto-black", sans-serif;
+    font-weight: 900;
+}
+
+a {
+    color: inherit;
+}
